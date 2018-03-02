@@ -1,0 +1,9 @@
+FROM alpine
+
+RUN apk add --no-cache ca-certificates
+
+COPY pixel-api /
+
+ENTRYPOINT ["./pixel-api"]
+
+EXPOSE 5000

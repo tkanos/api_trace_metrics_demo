@@ -1,0 +1,17 @@
+{
+    "cases": [
+      {
+        "name": "http_request_pixel_should_get_200",
+        "path": "/pixel/123",
+        "method": "GET",
+  
+        "http_code_is": 200
+      },
+      {
+        "name": "http_request_pixel_when_NotNumbers_parameters_should_get_400",
+        "path": "/pixel/abc",
+        "method": "GET",
+  
+        "http_code_is": 400
+      }]
+  }
