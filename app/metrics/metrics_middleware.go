@@ -9,13 +9,11 @@ import (
 )
 
 const (
-	requestName       = "total"
 	requestFailedName = "failed_count"
 	latencyName       = "duration_milliseconds"
 )
 
 type metricsService struct {
-	request       *prometheus.CounterVec
 	requestFailed *prometheus.CounterVec
 	latency       *prometheus.HistogramVec
 	serviceName   string
@@ -30,15 +28,6 @@ func NewMetricsMiddleware(serviceName string, next endpoint.Endpoint) endpoint.E
 func metricsMiddleware(name string) *metricsService {
 	var m metricsService
 	fieldKeys := []string{"method"}
-
-	m.request = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Namespace: "http",
-			Subsystem: "request",
-			Name:      requestName,
-			Help:      "Number of requests processed",
-		}, fieldKeys)
-	prometheus.MustRegister(m.request)
 
 	m.requestFailed = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
@@ -72,7 +61,6 @@ func (m *metricsService) instrumentation(next endpoint.Endpoint) endpoint.Endpoi
 		defer func(start time.Time) {
 			m.latency.WithLabelValues(m.serviceName).Observe(time.Since(start).Seconds() * 1e3)
 		}(start)
-		defer m.request.WithLabelValues(m.serviceName).Inc()
 		// If error is not empty, we add to metrics that it failed
 		response, err = next(ctx, request)
 		if err != nil {
