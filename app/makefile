@@ -6,6 +6,7 @@ es_mem_issue:
 install:
 	go get -u github.com/golang/dep/cmd/dep
 	go get -u github.com/bluehoodie/smoke
+	go get -u golang.org/x/lint/golint
 	dep ensure
 
 build:
