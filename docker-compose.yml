@@ -41,14 +41,14 @@ services:
             - GF_SECURITY_ADMIN_PASSWORD=foobar
             - GF_USERS_ALLOW_SIGN_UP=false
     zipkin_storage:
-        image: openzipkin/zipkin-elasticsearch6
-        container_name: elasticsearch
+        image: openzipkin/zipkin-mysql
+        container_name: mysql
     zipkin:
         image: openzipkin/zipkin
         environment:
-            - STORAGE_TYPE=elasticsearch
+            - STORAGE_TYPE=mysql
             # Point the zipkin at the storage backend
-            - ES_HOSTS=elasticsearch
+            - MYSQL_HOST=elasticsearch
             # Uncomment to see requests to and from elasticsearch
             # - ES_HTTP_LOGGING=BODY
         ports:
