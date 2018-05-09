@@ -48,7 +48,7 @@ services:
         environment:
             - STORAGE_TYPE=mysql
             # Point the zipkin at the storage backend
-            - MYSQL_HOST=elasticsearch
+            - MYSQL_HOST=zipkin_storage
             # Uncomment to see requests to and from elasticsearch
             # - ES_HTTP_LOGGING=BODY
         ports:
