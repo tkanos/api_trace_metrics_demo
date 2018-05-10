@@ -40,6 +40,7 @@ services:
         environment:
             - GF_SECURITY_ADMIN_PASSWORD=foobar
             - GF_USERS_ALLOW_SIGN_UP=false
+        user: $UID
     zipkin_storage:
         image: openzipkin/zipkin-mysql
         container_name: mysql
