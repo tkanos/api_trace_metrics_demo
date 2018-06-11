@@ -1,0 +1,62 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  labels:
+    app: "zipkin"
+    spec: "opentracing"
+    namespace: "monitoring"
+    type: "server"
+  name: "zipkin"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "zipkin"
+      spec: "opentracing"
+      namespace: "monitoring"
+      type: "server"
+  template:
+    metadata:
+      labels:
+        app: "zipkin"
+        spec: "opentracing"
+        namespace: "monitoring"
+        type: "server"
+    spec:
+      containers:
+      - name: "zipkin"
+        image: "openzipkin/zipkin"
+        readinessProbe:
+          httpGet:
+            path: "/api/v1/services"
+            port: 9411
+          initialDelaySeconds: 5
+        resources:
+          limits:
+            cpu: "0"
+            memory: "0"
+          requests:
+            cpu: "0"
+            memory: "0"
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  labels:
+    app: "zipkin"
+    spec: "opentracing"
+    namespace: "monitoring"
+    type: "server"
+  name: "zipkin"
+spec:
+  ports:
+  - port: 80
+    protocol: "TCP"
+    targetPort: 9411
+  selector:
+    app: "zipkin"
+    spec: "opentracing"
+    namespace: "monitoring"
+    type: "server"
+  type: "LoadBalancer"

@@ -1,0 +1,12 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "pixel-api.fullname" . }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ template "pixel-api.fullname" . }}
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: {{ .Values.autoScale.cpuPercent }}
